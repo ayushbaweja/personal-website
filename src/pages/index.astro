@@ -3,24 +3,27 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "Ayush Baweja";
 ---
 
-<BaseLayout pageTitle={pageTitle}>        
-    <!--<a href="/projects/">Projects</a>-->    
-    <a href="/reading/">Reading</a>
-    <a href="/research">Research</a>
-    <!--<a href="/travel/">Travel</a>-->
+<BaseLayout pageTitle={pageTitle}>
+    <nav>
+        <a href="/reading/">Reading</a>
+        <a href="/research/">Research</a>
+        <a href="/projects/">Projects</a>
+        <a href="/travel/">Travel</a>
+    </nav>
 
-    <p>I'm a junior at Georgia Tech studying computer science with concentrations in intelligence and theory,
-        and potentially a minor in linguistics.</p>
+    <section class="intro">
+        <p>I'm a BS/MS student at Georgia Tech studying computer science (machine learning specialization) with concentrations in intelligence and theory.</p>
 
-    <p>My current goal is to <em>explore broadly</em>. Currently, I'm curious about <a href="https://www.startup.exchange/">startups</a>, rationality,
-    artificial intelligence, cognitive science, robotics, graphics and philosophy.</p>
+        <p>Lately I've been curious about </p>
+    </section>
 
-    <h2>Now</h2>
-    <p>Updated February 13, 2024 from Atlanta, GA</p>
-    <ul>
-        <li>Building strong foundations in linear algebra, ML and AI</li>
-        <li>Improving my understanding of religion and how it intersects with science with <a href="https://cressler.ece.gatech.edu/courses/IAC3803/info/S20/Cressler%20-%20Flier%20+%20Course%20Description%20for%20S20%20IAC%202002%20Science%20and%20Religion%20Course.pdf">Professor Cressler</a></li>
-        <li>Thinking about how to improve collegiate entrepreneurship at <a href="https://www.startup.exchange/">Startup Exchange</a></li>
-        <li>Finding out the ins and outs of large scale events @ <a href="https://hexlabs.org/">Hexlabs</a></li>
-    </ul>
+    <section class="now-section">
+        <h2>Now</h2>
+        <p class="now-date">Updated September 6, 2025 from Atlanta, GA</p>
+        <ul>
+            <li><a href="https://github.com/ayushbaweja/i2v-attack">Experimenting</a> with image protection against adversarial I2V diffusion models</li>
+            <li>Why is NVIDIA the world's most valuable company? Learning about GPU hardware and <a href>CUDA</a></li>
+            <li>Deep Reinforcement Learning</li>
+        </ul>
+    </section>
 </BaseLayout>

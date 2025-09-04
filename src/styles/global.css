@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'et-book';
-    src: url('fonts/et-book-roman-line-figures.woff') format('woff');
+    src: url('/fonts/et-book-roman-line-figures.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -8,55 +8,210 @@
 
 @font-face {
     font-family: "et-book";
-    src: url("fonts/et-book-display-italic-old-style-figures.woff") format('woff');
+    src: url("/fonts/et-book-display-italic-old-style-figures.woff") format('woff');
     font-weight: normal;
-    font-style: italic
+    font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "et-book";
     src: url("/fonts/et-book-bold-line-figures.woff") format('woff');
     font-weight: bold;
-    font-style: normal
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "et-book-roman-old-style";
-    src: url("public/fonts/et-book-roman-old-style-figures.woff") format('woff');
+    src: url("/fonts/et-book-roman-old-style-figures.woff") format('woff');
     font-weight: normal;
-    font-style: normal
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --background-color: #fffff8;
+    --text-color: #111111;
+    --link-color: #0066cc;
+    --link-hover-color: #004499;
+    --accent-color: #333333;
+    --border-color: #e8e8e8;
+    --code-background: #f8f8f8;
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'et-book';
-    background-color: #fae8da;
-    max-width: 600px;
-    margin: auto;
-    margin-top:20px;
-    margin-bottom:40px;
+    font-family: 'et-book', serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    max-width: 55rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    line-height: 1.4;
+    font-size: 1.1rem;
+    counter-reset: sidenote-counter;
 }
 
 h1 {
-    font-family: 'et-book';
+    font-family: 'et-book', serif;
     font-weight: normal;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin: 0 0 1.5rem 0;
+    letter-spacing: -0.02em;
 }
 
 h2 {
-    font-family: 'et-book';
+    font-family: 'et-book', serif;
     font-weight: normal;
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin: 2rem 0 1rem 0;
+    letter-spacing: -0.01em;
 }
 
 h3 {
-    font-family: 'et-book';
+    font-family: 'et-book', serif;
     font-weight: normal;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin: 1.5rem 0 0.8rem 0;
 }
 
+p {
+    margin: 0 0 1rem 0;
+    text-align: justify;
+    hyphens: auto;
+}
 
-  a:hover {
-    color: #fa2422;
-  }
+nav {
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
 
-  a:visited {
-    color: #fa2422;
-  }
+nav a {
+    margin-right: 2rem;
+    text-decoration: none;
+    font-size: 1rem;
+    color: var(--link-color);
+    transition: color 0.2s ease;
+}
+
+nav a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+nav a:visited {
+    color: var(--link-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+a:visited {
+    color: var(--link-color);
+}
+
+ul {
+    padding-left: 1.5rem;
+    margin: 1rem 0;
+}
+
+li {
+    margin: 0.5rem 0;
+    line-height: 1.4;
+}
+
+.now-section {
+    background-color: var(--code-background);
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-left: 4px solid var(--link-color);
+    border-radius: 0 4px 4px 0;
+}
+
+.now-section h2 {
+    margin-top: 0;
+    color: var(--accent-color);
+}
+
+.now-date {
+    font-style: italic;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+}
+
+footer text {
+    display: block;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+footer a {
+    margin: 0 1rem;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    nav a {
+        margin-right: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .now-section {
+        padding: 1rem;
+    }
+    
+    footer a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    nav a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+    
+    nav {
+        text-align: center;
+    }
+}
   
