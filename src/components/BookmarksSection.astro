@@ -1,0 +1,61 @@
+---
+import { fetchBookmarks } from '../utils/fetch-bookmarks.mjs';
+
+const allBookmarks = await fetchBookmarks();
+const bookmarks = allBookmarks.slice(0, 5);
+---
+
+<h2>Recent Bookmarks</h2>
+{bookmarks.length > 0 ? (
+    <ul class="bookmarks-list">
+        {bookmarks.map(bm => (
+            <li>
+                <a href={bm.url}>{bm.title}</a>
+                <span class="bookmark-meta">
+                    <span class="bookmark-domain">{bm.domain}</span>
+                    <span class="bookmark-date">{bm.dateStr}</span>
+                </span>
+                {bm.tags.length > 0 && (
+                    <span class="bookmark-tags">
+                        {bm.tags.map(t => <span class="tag">{t}</span>)}
+                    </span>
+                )}
+            </li>
+        ))}
+    </ul>
+) : (
+    <p class="empty-note">No bookmarks yet — check back soon.</p>
+)}
+{allBookmarks.length > 5 && (
+    <p><a href="/bookmarks">See all bookmarks &rarr;</a></p>
+)}
+
+<style>
+    .bookmarks-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    .bookmarks-list li {
+        margin-bottom: 1rem;
+    }
+    .bookmarks-list a {
+        font-size: 1.15rem;
+    }
+    .bookmark-meta {
+        display: block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.15rem;
+    }
+    .bookmark-domain {
+        margin-right: 0.75rem;
+    }
+    .bookmark-tags {
+        display: block;
+        margin-top: 0.25rem;
+    }
+    .empty-note {
+        color: #666;
+        font-style: italic;
+    }
+</style>

@@ -1,0 +1,48 @@
+---
+const res = await fetch('https://ayushbaweja.bearblog.dev/feed/', {
+    headers: { 'User-Agent': 'Mozilla/5.0' },
+});
+const xml = await res.text();
+
+// Bearblog serves an Atom feed (<entry>) not RSS (<item>)
+const items = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(match => {
+    const get = (tag: string) => match[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`))?.[1]?.trim() ?? '';
+    const link = match[1].match(/<link[^>]*href="([^"]*)"[^>]*rel="alternate"/)?.[1] ?? '';
+    const published = get('published');
+    return {
+        title: get('title'),
+        link,
+        date: new Date(published),
+        dateStr: new Date(published).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+    };
+}).sort((a, b) => b.date.getTime() - a.date.getTime());
+---
+
+<h2>Writing</h2>
+<ul class="writing-list">
+    {items.map(post => (
+        <li>
+            <a href={post.link}>{post.title}</a>
+            <span class="post-date">{post.dateStr}</span>
+        </li>
+    ))}
+</ul>
+
+<style>
+    .writing-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    .writing-list li {
+        margin-bottom: 1rem;
+    }
+    .writing-list a {
+        font-size: 1.15rem;
+    }
+    .post-date {
+        display: block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.15rem;
+    }
+</style>

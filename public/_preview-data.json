@@ -1,0 +1,73 @@
+{
+  "internal": {
+    "#intro": {
+      "title": "About",
+      "description": "BS/MS student at Georgia Tech studying computer science with machine learning specialization."
+    },
+    "#projects": {
+      "title": "Projects",
+      "description": "Selected projects and experiments."
+    },
+    "#research": {
+      "title": "Research",
+      "description": "Current research on protecting images against adversarial generation models. Interests include diffusion, multimodal models, and deep reinforcement learning."
+    },
+    "#papers": {
+      "title": "Recent Papers",
+      "description": "Papers I've been reading — fetched from Semantic Scholar."
+    },
+    "#writing": {
+      "title": "Writing",
+      "description": "Essays and thoughts. Coming soon."
+    },
+    "#bookmarks": {
+      "title": "Recent Bookmarks",
+      "description": "Links and articles I've saved recently via Raindrop.io."
+    },
+    "#reading": {
+      "title": "Reading",
+      "description": "Favorite books and blogs."
+    },
+    "#travel": {
+      "title": "Travel",
+      "description": "Places and journeys."
+    }
+  },
+  "external": {
+    "https://yongxin.ae.gatech.edu": {
+      "title": "Yongxin Chen",
+      "description": "",
+      "thumbnail": null,
+      "favicon": "https://www.google.com/s2/favicons?domain=yongxin.ae.gatech.edu&sz=32",
+      "url": "https://yongxin.ae.gatech.edu"
+    },
+    "https://xavihart.github.io": {
+      "title": "Haotian Xue — CV",
+      "description": "Haotian Xue is a Machine Learning PhD student at Georgia Tech.",
+      "thumbnail": null,
+      "favicon": "https://www.google.com/s2/favicons?domain=xavihart.github.io&sz=32",
+      "url": "https://xavihart.github.io"
+    },
+    "https://www.epic.gatech.edu/": {
+      "title": "Home - EPIC Lab at Georgia Tech",
+      "description": "The Exoskeleton and Prosthetic Intelligent Controls (EPIC) Lab at Georgia Tech, led by Dr. Aaron Young, is devoted to the design and control of robotic prostheses and exoskeletons. The EPIC lab has the ability to characterize robotic devices and controller implementation from the ground up, starting at fabrication and bench-top testing, to controller optimization, and",
+      "thumbnail": "https://www.epic.gatech.edu/wp-content/uploads/2023/05/cropped-cropped-Untitled_Artwork-11-1.png",
+      "favicon": "https://www.google.com/s2/favicons?domain=www.epic.gatech.edu&sz=32",
+      "url": "https://www.epic.gatech.edu/"
+    },
+    "https://github.com/ayushbaweja/i2v-attack": {
+      "title": "GitHub - ayushbaweja/i2v-attack: testing image to video diffusion model attacks",
+      "description": "testing image to video diffusion model attacks. Contribute to ayushbaweja/i2v-attack development by creating an account on GitHub.",
+      "thumbnail": "https://opengraph.githubassets.com/f209d719674f60c109fce9f967e98eb761cb4bd3d5e4d031d19549bebb17d8bf/ayushbaweja/i2v-attack",
+      "favicon": "https://www.google.com/s2/favicons?domain=github.com&sz=32",
+      "url": "https://github.com/ayushbaweja/i2v-attack"
+    },
+    "https://www.goodreads.com/user/show/153799802-ayush-baweja": {
+      "title": "Ayush Baweja",
+      "description": "Ayush Baweja has 57 books on Goodreads, and is currently reading The Year of Magical Thinking by Joan Didion, Antimemetics: Why Some Ideas Resist Spreadi...",
+      "thumbnail": "https://images.gr-assets.com/users/1721757507p5/153799802.jpg",
+      "favicon": "https://www.google.com/s2/favicons?domain=www.goodreads.com&sz=32",
+      "url": "https://www.goodreads.com/user/show/153799802-ayush-baweja"
+    }
+  }
+}

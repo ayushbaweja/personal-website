@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { fetchBookmarks } from '../utils/fetch-bookmarks.mjs';
+
+const pageTitle = "Bookmarks — Ayush Baweja";
+const bookmarks = await fetchBookmarks();
+---
+
+<BaseLayout pageTitle={pageTitle}>
+    <main class="scroll-container">
+        <section class="full-section" style="border-top: none;">
+            <div class="section-content">
+                <h1>Bookmarks</h1>
+                {bookmarks.length > 0 ? (
+                    <ul class="bookmarks-list">
+                        {bookmarks.map(bm => (
+                            <li>
+                                <a href={bm.url}>{bm.title}</a>
+                                <span class="bookmark-meta">
+                                    <span class="bookmark-domain">{bm.domain}</span>
+                                    <span class="bookmark-date">{bm.dateStr}</span>
+                                </span>
+                                {bm.tags.length > 0 && (
+                                    <span class="bookmark-tags">
+                                        {bm.tags.map(t => <span class="tag">{t}</span>)}
+                                    </span>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p class="empty-note">No bookmarks yet — check back soon.</p>
+                )}
+                <p><a href="/">&larr; Back home</a></p>
+            </div>
+        </section>
+    </main>
+</BaseLayout>
+
+<style>
+    .bookmarks-list {
+        list-style: none;
+        padding-left: 0;
+    }
+    .bookmarks-list li {
+        margin-bottom: 1rem;
+    }
+    .bookmarks-list a {
+        font-size: 1.15rem;
+    }
+    .bookmark-meta {
+        display: block;
+        font-size: 0.85rem;
+        color: #666;
+        margin-top: 0.15rem;
+    }
+    .bookmark-domain {
+        margin-right: 0.75rem;
+    }
+    .bookmark-tags {
+        display: block;
+        margin-top: 0.25rem;
+    }
+    .empty-note {
+        color: #666;
+        font-style: italic;
+    }
+</style>

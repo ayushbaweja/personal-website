@@ -11,5 +11,9 @@
   },
   "dependencies": {
     "astro": "^2.10.15"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0",
+    "node-fetch": "^3.3.2"
   }
 }

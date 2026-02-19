@@ -1,29 +1,129 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectsSection from '../components/ProjectsSection.astro';
+import ResearchSection from '../components/ResearchSection.astro';
+import PapersSection from '../components/PapersSection.astro';
+import WritingSection from '../components/WritingSection.astro';
+import BookmarksSection from '../components/BookmarksSection.astro';
+import ReadingSection from '../components/ReadingSection.astro';
+import TravelSection from '../components/TravelSection.astro';
 const pageTitle = "Ayush Baweja";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <nav>
-        <a href="/reading/">Reading</a>
-        <a href="/research/">Research</a>
-        <a href="/projects/">Projects</a>
-        <a href="/travel/">Travel</a>
-    </nav>
+    <main class="scroll-container">
+        <section id="intro" class="full-section">
+            <div class="section-content">
+                <div class="intro-header">
+                    <h1>Ayush Baweja</h1>
+                    <nav class="section-nav">
+                        <a href="#research">research</a>
+                        <a href="#writing">writing</a>
+                        <a href="#reading">reading</a>
+                        <a href="#papers">papers</a>
+                        <a href="#bookmarks">bookmarks</a>
+                    </nav>
+                </div>
+                <div class="intro-content">
+                    <p>I'm a BS/MS student at Georgia Tech studying computer science (machine learning specialization) with concentrations in intelligence and theory.</p>
+                    <p>I'm currently involved in <a href="#research">research with diffusion models</a> and in the past, I've worked at Visa, ran the <a href="https://hack.gt">largest hackathon in the South</a>, traveled to
+                        16 countries in 16 weeks, helped with powered prosthetics work and taught intro CS.
+                    </p>
+                    <p>In computer science, I've recently been interested in AI4Science and generative models, deep reinforcement learning, and
+                        dabbling in GPU programming. Outside of that, I'm slightly obsessed with aeropress coffee, college football, and tech twitter.
+                    </p>
+                </div>
 
-    <section class="intro">
-        <p>I'm a BS/MS student at Georgia Tech studying computer science (machine learning specialization) with concentrations in intelligence and theory.</p>
+                <div class="now-section">
+                    <h2>Now</h2>
+                    <p class="now-date">Updated February 15, 2026 from Atlanta, GA</p>
+                    <ul>
+                        <li>Attempting to discover new materials using ML</li>
+                        <li><a href="https://github.com/ayushbaweja/unified-model-attack">Trying</a> to break unified diffusion models</li>
+                        <li>Making the most of nonrev privileges on Delta (thanks Saharsh!)</li>
+                        <li>Getting back into guitar because someone sold me theirs for cheap</li>
+                        <li>Working through the Dune books + Denis Villeneuve's discography</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-        <p>Lately I've been curious about </p>
-    </section>
+        <section id="research" class="full-section">
+            <div class="section-content">
+                <ResearchSection />
+            </div>
+        </section>
 
-    <section class="now-section">
-        <h2>Now</h2>
-        <p class="now-date">Updated September 6, 2025 from Atlanta, GA</p>
-        <ul>
-            <li><a href="https://github.com/ayushbaweja/i2v-attack">Experimenting</a> with image protection against adversarial I2V diffusion models</li>
-            <li>Why is NVIDIA the world's most valuable company? Learning about GPU hardware and <a href>CUDA</a></li>
-            <li>Deep Reinforcement Learning</li>
-        </ul>
-    </section>
+        <section id="projects" class="full-section">
+            <div class="section-content">
+                <ProjectsSection />
+            </div>
+        </section>
+
+         <section id="writing" class="full-section">
+            <div class="section-content">
+                <WritingSection />
+            </div>
+        </section>
+
+        <section id="reading" class="full-section">
+            <div class="section-content">
+                <ReadingSection />
+            </div>
+        </section>
+
+        <section id="papers" class="full-section">
+            <div class="section-content">
+                <PapersSection />
+            </div>
+        </section>
+
+        <section id="bookmarks" class="full-section">
+            <div class="section-content">
+                <BookmarksSection />
+            </div>
+        </section>
+
+        <!-- <section id="travel" class="full-section">
+            <div class="section-content">
+                <TravelSection />
+            </div>
+        </section> -->
+    </main>
 </BaseLayout>
+
+<style>
+    .intro-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 1.2rem;
+    }
+
+    .section-nav {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .section-nav a {
+        font-size: 0.85rem;
+        color: var(--muted);
+        border-bottom: none;
+    }
+
+    .section-nav a:hover {
+        color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+        .intro-header {
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .section-nav {
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+    }
+</style>
