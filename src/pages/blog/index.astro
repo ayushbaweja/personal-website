@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPostSubtitle } from '../../utils/blog';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
+---
+
+<BaseLayout
+    pageTitle="Writing — Ayush Baweja"
+    description="Essays and notes by Ayush Baweja on computer science, research, and the things around them."
+>
+    <main class="page-shell">
+        <nav class="page-nav" aria-label="Breadcrumb">
+            <a href="/">Ayush Baweja</a>
+            <span aria-hidden="true">/</span>
+            <span>Writing</span>
+        </nav>
+
+        <section class="content-card blog-index">
+            <header class="page-header">
+                <h1>Writing</h1>
+                <a class="quiet-link" href="/rss.xml">RSS</a>
+            </header>
+
+            {posts.length > 0 ? (
+                <ol class="post-list">
+                    {posts.map(post => (
+                        <li>
+                            <a
+                                href={`/blog/${post.slug}/`}
+                                data-preview-title={post.data.title}
+                                data-preview-description={getPostSubtitle(post)}
+                            >{post.data.title}</a>
+                            <p>{getPostSubtitle(post)}</p>
+                            <time datetime={post.data.published.toISOString()}>
+                                {formatDate(post.data.published)}
+                            </time>
+                        </li>
+                    ))}
+                </ol>
+            ) : (
+                <p class="empty-note">No posts yet — check back soon.</p>
+            )}
+        </section>
+    </main>
+</BaseLayout>

@@ -7,6 +7,9 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const CACHE_PATH = path.resolve(process.cwd(), 'node_modules/.cache/bookmarks-cache.json');
+const CACHE_VERSION = 3;
+const CACHE_TTL_MS = 15 * 60 * 1000;
+const BOOKMARK_SCOPE = 'all';
 
 /**
  * Fetch recent bookmarks from Raindrop.io (disk-cached per build)
@@ -16,8 +19,12 @@ export async function fetchBookmarks() {
     // Check disk cache first
     try {
         const cached = await fs.readFile(CACHE_PATH, 'utf-8');
-        const { timestamp, bookmarks } = JSON.parse(cached);
-        if (Date.now() - timestamp < 60_000) {
+        const { version, timestamp, scope, bookmarks } = JSON.parse(cached);
+        if (
+            version === CACHE_VERSION
+            && scope === BOOKMARK_SCOPE
+            && Date.now() - timestamp < CACHE_TTL_MS
+        ) {
             return bookmarks;
         }
     } catch {}
@@ -30,8 +37,13 @@ export async function fetchBookmarks() {
     }
 
     try {
+        const query = new URLSearchParams({
+            sort: '-created',
+            perpage: '30',
+            nested: 'true',
+        });
         const res = await fetch(
-            'https://api.raindrop.io/rest/v1/raindrops/0?sort=-created&perpage=30',
+            `https://api.raindrop.io/rest/v1/raindrops/0?${query}`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -61,12 +73,17 @@ export async function fetchBookmarks() {
                     day: 'numeric',
                 }),
             };
-        });
+        }).sort((a, b) => b.date.getTime() - a.date.getTime());
 
         // Write disk cache
         try {
             await fs.mkdir(path.dirname(CACHE_PATH), { recursive: true });
-            await fs.writeFile(CACHE_PATH, JSON.stringify({ timestamp: Date.now(), bookmarks }));
+            await fs.writeFile(CACHE_PATH, JSON.stringify({
+                version: CACHE_VERSION,
+                timestamp: Date.now(),
+                scope: BOOKMARK_SCOPE,
+                bookmarks,
+            }));
         } catch {}
 
         return bookmarks;

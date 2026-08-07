@@ -1,3 +1,9 @@
 [
-  { "id": "2006.11239", "type": "arxiv", "tags": ["diffusion"], "date_added": "2024-06-15" }
+  {
+    "id": "2006.11239",
+    "type": "arxiv",
+    "title": "Denoising Diffusion Probabilistic Models",
+    "tags": ["diffusion"],
+    "date_added": "2024-06-15"
+  }
 ]

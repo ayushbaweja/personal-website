@@ -1,8 +1,13 @@
 ---
 import '../styles/global.css';
+import 'katex/dist/katex.min.css';
 import Footer from '../components/Footer.astro';
 import HoverPreview from '../components/HoverPreview.astro';
-const { pageTitle } = Astro.props;
+const {
+	pageTitle,
+	description = 'Ayush Baweja — computer science, research, projects, and writing.',
+	slowAutomata = false,
+} = Astro.props;
 ---
 
 <html lang="en">
@@ -11,9 +16,11 @@ const { pageTitle } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<link rel="alternate" type="application/rss+xml" title="Ayush Baweja — Writing" href="/rss.xml" />
 		<title>{pageTitle}</title>
 	</head>
-	<body>
+	<body data-automata-speed={slowAutomata ? 'slow' : 'normal'}>
 		<canvas id="gol-canvas"></canvas>
         <slot />
 		<Footer />
