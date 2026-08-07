@@ -4,7 +4,7 @@
   const ctx = canvas.getContext('2d');
 
   const CELL_SIZE = 12;
-  const TICK_MS = 180;
+  const TICK_MS = document.body.dataset.automataSpeed === 'slow' ? 1800 : 180;
   const ALIVE_COLOR = 'rgba(0, 0, 0, 0.06)';
 
   let cols, rows, grid;

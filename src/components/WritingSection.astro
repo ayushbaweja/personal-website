@@ -1,32 +1,31 @@
 ---
-const res = await fetch('https://ayushbaweja.bearblog.dev/feed/', {
-    headers: { 'User-Agent': 'Mozilla/5.0' },
-});
-const xml = await res.text();
+import { getCollection } from 'astro:content';
+import { getPostSubtitle } from '../utils/blog';
 
-// Bearblog serves an Atom feed (<entry>) not RSS (<item>)
-const items = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(match => {
-    const get = (tag: string) => match[1].match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`))?.[1]?.trim() ?? '';
-    const link = match[1].match(/<link[^>]*href="([^"]*)"[^>]*rel="alternate"/)?.[1] ?? '';
-    const published = get('published');
-    return {
-        title: get('title'),
-        link,
-        date: new Date(published),
-        dateStr: new Date(published).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    };
-}).sort((a, b) => b.date.getTime() - a.date.getTime());
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+    .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+});
 ---
 
 <h2>Writing</h2>
 <ul class="writing-list">
-    {items.map(post => (
+    {posts.map(post => (
         <li>
-            <a href={post.link}>{post.title}</a>
-            <span class="post-date">{post.dateStr}</span>
+            <a
+                href={`/blog/${post.slug}/`}
+                data-preview-title={post.data.title}
+                data-preview-description={getPostSubtitle(post)}
+            >{post.data.title}</a>
+            <span class="post-date">{formatDate(post.data.published)}</span>
         </li>
     ))}
 </ul>
+<p class="writing-more"><a href="/blog/" data-no-preview>All writing &rarr;</a></p>
 
 <style>
     .writing-list {
@@ -42,7 +41,11 @@ const items = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(match => {
     .post-date {
         display: block;
         font-size: 0.85rem;
-        color: #666;
+        color: var(--muted);
         margin-top: 0.15rem;
+    }
+    .writing-more {
+        margin: 0.9rem 0 0;
+        font-size: 0.9rem;
     }
 </style>

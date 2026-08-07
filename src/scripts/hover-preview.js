@@ -16,6 +16,7 @@ const HoverPreview = {
         showTimeout: null,
         hideTimeout: null,
         previewData: null,
+        pageCache: new Map(),
         isVisible: false,
     },
 
@@ -109,6 +110,10 @@ const HoverPreview = {
         // Exclude javascript: links
         if (href.startsWith('javascript:')) return true;
 
+        // Allow individual links and navigation groups to opt out.
+        if (link.hasAttribute('data-no-preview')) return true;
+        if (link.closest('.section-nav, .page-nav')) return true;
+
         // Exclude nav links within fixed-nav (they have special scroll behavior)
         if (link.closest('.fixed-nav')) return true;
 
@@ -134,7 +139,8 @@ const HoverPreview = {
         const href = link.getAttribute('href');
         const linkType = this.detectLinkType(href);
 
-        const previewContent = await this.getPreviewContent(href, linkType);
+        const previewContent = await this.getPreviewContent(href, linkType, link);
+        if (link !== this.state.currentLink) return;
         if (!previewContent) {
             this.hidePreview();
             return;
@@ -163,7 +169,7 @@ const HoverPreview = {
     /**
      * Get preview content for a URL
      */
-    async getPreviewContent(href, linkType) {
+    async getPreviewContent(href, linkType, link) {
         if (!this.state.previewData) return null;
 
         if (linkType === 'internal-section') {
@@ -179,7 +185,50 @@ const HoverPreview = {
             return this.createBasicPreview(href);
         }
 
+        if (linkType === 'internal-page') {
+            const embeddedTitle = link.dataset.previewTitle;
+            const embeddedDescription = link.dataset.previewDescription;
+            if (embeddedTitle || embeddedDescription) {
+                return {
+                    title: embeddedTitle || link.textContent.trim(),
+                    description: embeddedDescription || '',
+                };
+            }
+
+            return this.fetchInternalPreview(href);
+        }
+
         return null;
+    },
+
+    /**
+     * Read metadata from an internal page and cache it for future hovers.
+     */
+    async fetchInternalPreview(href) {
+        const url = new URL(href, window.location.origin).href;
+        if (this.state.pageCache.has(url)) {
+            return this.state.pageCache.get(url);
+        }
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) return null;
+
+            const html = await response.text();
+            const document = new DOMParser().parseFromString(html, 'text/html');
+            const preview = {
+                title: document.querySelector('meta[property="og:title"]')?.content
+                    || document.querySelector('title')?.textContent
+                    || '',
+                description: document.querySelector('meta[name="description"]')?.content || '',
+                thumbnail: document.querySelector('meta[property="og:image"]')?.content || null,
+            };
+
+            this.state.pageCache.set(url, preview);
+            return preview;
+        } catch {
+            return null;
+        }
     },
 
     /**
@@ -244,8 +293,8 @@ const HoverPreview = {
             urlEl.textContent = '';
         }
 
-        // Add internal class for internal sections
-        el.classList.toggle('internal', linkType === 'internal-section');
+        // Internal links do not need the external domain row.
+        el.classList.toggle('internal', linkType !== 'external');
         el.classList.remove('loading');
     },
 

@@ -1,4 +1,6 @@
 import { defineConfig } from 'astro/config';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { fetchAllMetadata } from './src/utils/fetch-metadata.mjs';
 import fs from 'fs/promises';
 
@@ -13,6 +15,13 @@ const externalUrls = [
 
 // https://astro.build/config
 export default defineConfig({
+    markdown: {
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        shikiConfig: {
+            theme: 'github-light',
+        },
+    },
     integrations: [{
         name: 'link-preview-generator',
         hooks: {
