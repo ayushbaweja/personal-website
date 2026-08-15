@@ -140,7 +140,7 @@ The base models clearly struggle with the task but do represent understanding of
   <img src="/images/blog/is-this-token-canon/sft-score.png" />
 </figure>
 
-Further ablation studies on the SFT stage show that the chat template tags (separation of question and response) and the keeping the format more like question and response instead of continuation (even with tags) are key to robustness.
+Further ablation studies on the SFT stage show that the chat template tags (separation of question and response) and the keeping the format more like question and response instead of continuation (even with tags) are key to robustness. The authors conclude that token boundaries can act as an inference-time representation control, producing large gains when they align with task structure and that this robustness arises as a an artifact of post training a base model.
 
 ## Conclusion
 
