@@ -1,5 +1,5 @@
 ---
-title: "Is This Token Canon?"
+title: "The Road not Tokenized"
 subtitle: "Exploring the idea of canonical and non-canonical tokenizations"
 published: 2026-08-09T12:00:00-05:00
 draft: false
@@ -43,14 +43,14 @@ $$
 These representations are all valid: decoding any of the four token sequences gives us the same string, `abc`. In practice, however, encoding `abc` with a particular deterministic tokenizer will always produce the same token sequence. That sequence is the tokenizer's *canonical encoding* of `abc`.
 
 <figure>
-  <img src="/images/blog/is-this-token-canon/tiktoken-viz.webp" alt="A tokenizer treating abc as one token within the string 123abc" />
+  <img src="/images/blog/the-road-not-tokenized/tiktoken-viz.webp" alt="A tokenizer treating abc as one token within the string 123abc" />
   <figcaption>Each letter and two-letter combination maps to a token on its own, but in the string <code>123abc</code>, <code>abc</code> is treated as a single token.</figcaption>
 </figure>
 
 An interesting way to visualize the possible encodings is as a *graph*:
 
 <figure>
-  <img src="/images/blog/is-this-token-canon/segmentation-graph.gif" alt="Animation showing the four paths through the tokenization graph for abc" />
+  <img src="/images/blog/the-road-not-tokenized/segmentation-graph.gif" alt="Animation showing the four paths through the tokenization graph for abc" />
   <figcaption>Every path from the start of the string to its end is a valid tokenization.</figcaption>
 </figure>
 
@@ -110,7 +110,7 @@ The paper [*Where Is the Signal in Tokenization Space?*](https://aclanthology.or
 When attempting to find the most likely tokenization, the authors of the paper set the probability of the canonical tokenization as a baseline and search for paths with a higher probability, pruning those paths with a partial probability below the canonical. Under a time limit, despite exponential growth in tokenization paths as the string length increases, the authors did not find any tokenization that beat the canonical baseline.
 
 <figure>
-  <img src="/images/blog/is-this-token-canon/token-search.png" alt="Plots of tokenization search time and probability mass across tokenizations" />
+  <img src="/images/blog/the-road-not-tokenized/token-search.png" alt="Plots of tokenization search time and probability mass across tokenizations" />
   <figcaption>Branch-and-bound search time grows rapidly with string length (left), while nearly all probability mass for <code>Tokens</code> lies on its canonical tokenization (right).</figcaption>
 </figure>
 
@@ -119,7 +119,7 @@ The marginal probability (the sum of the probabilities of every possible tokeniz
 To test whether there is any signal in these low-probability, non-canonical tokenizations, the authors draw a number of non-canonical tokenizations of the answers for multiple choice questions while keeping the questions in their standard tokenizations. The authors estimate each answer’s marginal using k sampled tokenizations, tune the sample count k on a 1000-example validation set and apply that k to the test set. The test set includes multiple-choice benchmarks such as HellaSwag, SocialIQA and OpenBookQA across several models and find modest improvement in accuracy. Using a weighted mix of canonical and non-canonical probabilities also led to accuracy improvements, leading the authors to conclude clear signal.
 
 <figure>
-  <img src="/images/blog/is-this-token-canon/accuracy-canon.png" />
+  <img src="/images/blog/the-road-not-tokenized/accuracy-canon.png" />
 </figure>
 
 The hypothesis the paper is seemingly drawing towards is that ignoring the non-canonical tokenizations is throwing away meaningful signal; the true probability of a string is not equivalent to the canonical tokenization probability. As seen from the graph, as the number of samples increased, performance tended to return to the canonical baseline. With more samples, the estimate of the true marginal probability gets more accurate and so this decrease in performance contradicts the idea that there is signal there. The true marginal is essentially canonical as the authors found, then as you estimate the marginal better, you recover the canonical score. The tuned classifier improved accuracy here and the weighted experiment also improved accuracy, so there is some evidence of information but no clear reason why.
@@ -131,13 +131,13 @@ Establishing that the models are capable of *retaining* performance, the authors
 As noted earlier, these improvements were seen in  *instruct* models, which leads to another research question. At what point in the post-training do models develop robustness to non-canonical tokenizations? To identify the source, testing was done with the base, SFT, DPO and instruct models again based on spelling, grammatical correctness and the preference of an LLM Judge system between the responses to a canonical and non-canonical prompt.
 
 <figure>
-  <img src="/images/blog/is-this-token-canon/base-struggle.png" />
+  <img src="/images/blog/the-road-not-tokenized/base-struggle.png" />
 </figure>
 
 The base models clearly struggle with the task but do represent understanding of the context. The bulk of the improvement comes from the SFT stage.
 
 <figure>
-  <img src="/images/blog/is-this-token-canon/sft-score.png" />
+  <img src="/images/blog/the-road-not-tokenized/sft-score.png" />
 </figure>
 
 Further ablation studies on the SFT stage show that the chat template tags (separation of question and response) and the keeping the format more like question and response instead of continuation (even with tags) are key to robustness. The authors conclude that token boundaries can act as an inference-time representation control, producing large gains when they align with task structure and that this robustness arises as a an artifact of post training a base model.
