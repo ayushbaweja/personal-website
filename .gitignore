@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+/Users/ayushbaweja/Development/personal-website/src/content/blog/model-harness-robustness.md
+/Users/ayushbaweja/Development/personal-website/public/images/blog/model-harness-robustness
